@@ -9,13 +9,18 @@ import SigninSignup from './pages/signin-signup/signin-signup.component'
 
 import { auth, createUserProfileDocument } from './firebase/firebase.util'
 
+// adding connect from redux
+import { connect } from 'react-redux'
+import { setCurrentUser } from './redux/user/user.action'
+
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      currentUser: null
-    }
-  }
+  // sudah tdk menggunkan state lag krn sdh di handle oleh redux !
+  // constructor(props) {
+  //   super(props);
+  //   this.state={
+  //     currentUser: null
+  //   }
+  // }
 
   unsubscribeFromAuth = null
   
@@ -25,17 +30,23 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth)
 
         userRef.onSnapshot(snapshot => {
-          this.setState({
+          // this.setState({
+          //   currentUser: {
+          //     id: userRef.id,
+          //     ...snapshot.data()
+          //   }
+          // }, () => {
+          //   console.log(this.state);
+          // }) 
+          this.props.setCurrentUser({
             currentUser: {
               id: userRef.id,
               ...snapshot.data()
             }
-          }, () => {
-            console.log(this.state);
-          }) 
+          })
         })
       }else {
-        this.setState({ currentUser: userAuth })
+        this.props.setCurrentUser(userAuth)
       }
     })
   }
@@ -48,7 +59,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route exact path='/' component={HomePage}  />
           <Route path='/shop' component={ShopPage} />
@@ -59,7 +70,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+export default connect(null, mapDispatchToProps)(App);
 
 // function App() {
 //   return (
