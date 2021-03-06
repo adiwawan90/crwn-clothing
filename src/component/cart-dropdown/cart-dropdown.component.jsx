@@ -4,15 +4,20 @@ import CustomButton from '../custom-button/custom-button.component'
 import './cart-dropdown.styles.scss'
 import CartIem from '../cart-item/cart-item.component'
 
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+// adding 'reselect
+import { selectCartItems } from '../../redux/cart/cart.selectors'
 
 const CartDropdown = ({cartItems}) => {
+  // coba pakai useSelector HOOK
+  // const cartItemsAll = useSelector(state => state.cart.cartItems) // sama fungsi nya dengan 'selector'
+
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
         {
           cartItems.map(item => 
-            <CartIem key={item.key} item={item} />
+            <CartIem key={item.id} item={item} />
           )
         }
         <CustomButton>Go To Checkout</CustomButton>
@@ -21,8 +26,8 @@ const CartDropdown = ({cartItems}) => {
   )
 }
 
-const mapStateToProps = ({cart: {cartItems}}) => ({
-  cartItems,
+const mapStateToProps = (state) => ({
+  cartItems: selectCartItems(state),
 })
 
 export default connect(mapStateToProps)(CartDropdown)
