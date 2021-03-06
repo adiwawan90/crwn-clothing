@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
-import { toggleCardHidden } from '../../redux/cart/cart.action'
 
 const Header = ({currentUser, hidden}) => {
     return (
