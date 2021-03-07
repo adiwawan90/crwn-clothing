@@ -6,12 +6,16 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './component/header/header.component'
 import SigninSignup from './pages/signin-signup/signin-signup.component'
+import CheckoutPage from './pages/checkout/checkout.component'
 
 import { auth, createUserProfileDocument } from './firebase/firebase.util'
 
 // adding connect from redux
 import { connect } from 'react-redux'
 import { setCurrentUser } from './redux/user/user.action'
+// using createStructuredSelector for manage selector in mapStateToProps
+import { createStructuredSelector } from 'reselect'
+import { selectCurrentUser } from "./redux/user/user.selectors";
 
 class App extends React.Component {
   // sudah tdk menggunkan state lag krn sdh di handle oleh redux !
@@ -63,6 +67,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage}  />
           <Route path='/shop' component={ShopPage} />
+          <Route exact path='/checkout' component={CheckoutPage} />
           <Route 
             exact
             path='/signin'
@@ -77,8 +82,8 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({user}) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({
