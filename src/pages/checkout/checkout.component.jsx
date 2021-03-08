@@ -8,7 +8,6 @@ import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selector
 import CheckoutItem from '../../component/checkout-item/checkout-item.component';
 
 const CheckoutPage = ({ cartItems, cartTotal }) => {
-  console.log(cartTotal);
   return (
     <div className="checkout-page">
       <div className="checkout-header">
