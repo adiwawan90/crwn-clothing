@@ -4,12 +4,18 @@ import './collection.styles.scss'
 import { connect } from 'react-redux'
 import { selectCollectionCategory } from '../../redux/shop/shop.selector'
 
+import CollectionItem from '../../component/collection-item/collection-item.component'
+
 const CollectionPage = ({ collections, match }) => {
-  console.log(match);
-  console.log(collections)
+  const { title, items } = collections
   return (
     <div className="collection-page">
-      Collection Page
+      <h2 className="title">{title}</h2>
+      <div className="items">
+        {items.map((item) => (
+          <CollectionItem key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   )
 }
